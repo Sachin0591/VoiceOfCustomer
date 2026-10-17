@@ -1,0 +1,1563 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Resonance</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=DM+Sans:wght@400;500;600&display=swap">
+
+<style>
+/* Layout: left-aligned research workspace, max 1080px, generous whitespace */
+:root {
+  --bg: #FFFFFF;
+  --surface: #FFFFFF;
+  --surface-raised: #F8F8F7;
+  --border: #E4E4E1;
+  --border-light: #EEEEEC;
+  --text: #1C1C1A;
+  --text-secondary: #727270;
+  --text-tertiary: #9E9E9B;
+  --accent: #2D5F8A;
+  --accent-light: #E6EFF6;
+  --accent-hover: #245175;
+  --pain: #B5524D;
+  --pain-bg: #FDF1F0;
+  --positive: #3D8B63;
+  --positive-bg: #EDF7F1;
+  --request: #4A72A8;
+  --request-bg: #EDF2F9;
+  --trend: #7B6A99;
+  --trend-bg: #F3F0F7;
+  --signal: #C4933F;
+  --signal-empty: #DDD9D0;
+  --font-display: 'Newsreader', Georgia, 'Times New Roman', serif;
+  --font-body: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  --radius-sm: 6px;
+  --radius-md: 10px;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #111110;
+    --surface: #1A1A18;
+    --surface-raised: #212120;
+    --border: #2C2C29;
+    --border-light: #242422;
+    --text: #E5E5E2;
+    --text-secondary: #9A9A97;
+    --text-tertiary: #6B6B68;
+    --accent: #5B9BD5;
+    --accent-light: #1A2A3A;
+    --accent-hover: #7CB3E4;
+    --pain: #D4716C;
+    --pain-bg: #2A1A19;
+    --positive: #5DB87E;
+    --positive-bg: #152A1D;
+    --request: #6B96CC;
+    --request-bg: #182438;
+    --trend: #A08BBF;
+    --trend-bg: #221D2E;
+    --signal: #D9A854;
+    --signal-empty: #333330;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #111110;
+  --surface: #1A1A18;
+  --surface-raised: #212120;
+  --border: #2C2C29;
+  --border-light: #242422;
+  --text: #E5E5E2;
+  --text-secondary: #9A9A97;
+  --text-tertiary: #6B6B68;
+  --accent: #5B9BD5;
+  --accent-light: #1A2A3A;
+  --accent-hover: #7CB3E4;
+  --pain: #D4716C;
+  --pain-bg: #2A1A19;
+  --positive: #5DB87E;
+  --positive-bg: #152A1D;
+  --request: #6B96CC;
+  --request-bg: #182438;
+  --trend: #A08BBF;
+  --trend-bg: #221D2E;
+  --signal: #D9A854;
+  --signal-empty: #333330;
+  color-scheme: dark;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: 15px;
+  line-height: 1.55;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  -webkit-font-smoothing: antialiased;
+}
+
+* { box-sizing: border-box; }
+
+#app {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding-block: 24px 80px;
+}
+
+/* ---- Typography ---- */
+h1, h2, h3 { margin: 0; }
+
+h1 {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: 28px;
+  line-height: 1.25;
+  letter-spacing: -0.01em;
+}
+
+h2 {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: 22px;
+  line-height: 1.3;
+}
+
+h3 {
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+/* ---- Buttons ---- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 16px;
+  border-radius: var(--radius-sm);
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 500;
+  border: none;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.btn-primary {
+  background: var(--accent);
+  color: #fff;
+}
+.btn-primary:hover { background: var(--accent-hover); }
+
+.btn-secondary {
+  background: var(--surface);
+  color: var(--text);
+  border: 1px solid var(--border);
+}
+.btn-secondary:hover { background: var(--surface-raised); }
+
+.btn-ghost {
+  background: none;
+  color: var(--accent);
+  padding: 6px 10px;
+}
+.btn-ghost:hover { background: var(--accent-light); }
+
+/* ---- Nav bar ---- */
+.nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 24px;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 32px;
+}
+
+.nav-brand {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 20px;
+  color: var(--text);
+  text-decoration: none;
+  letter-spacing: -0.02em;
+  cursor: pointer;
+}
+
+.nav-tagline {
+  font-size: 13px;
+  color: var(--text-tertiary);
+  margin-left: 16px;
+}
+
+/* ---- Back link ---- */
+.back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--text-secondary);
+  text-decoration: none;
+  font-size: 13px;
+  margin-bottom: 20px;
+  cursor: pointer;
+  transition: color 0.15s;
+}
+.back-link:hover { color: var(--text); }
+.back-link svg { flex-shrink: 0; }
+
+/* ---- Screen 1: Repos ---- */
+.page-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 32px;
+  flex-wrap: wrap;
+}
+
+.page-header p {
+  margin: 6px 0 0;
+  color: var(--text-secondary);
+  font-size: 14px;
+  max-width: 520px;
+}
+
+.repos-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 16px;
+}
+
+.repo-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 20px;
+  cursor: pointer;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+.repo-card:hover {
+  border-color: var(--accent);
+  box-shadow: 0 1px 6px rgba(0,0,0,0.06);
+}
+
+.repo-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.repo-card h2 {
+  font-family: var(--font-display);
+  font-size: 18px;
+  font-weight: 500;
+}
+
+.status-badge {
+  display: inline-block;
+  padding: 2px 10px;
+  border-radius: 100px;
+  font-size: 12px;
+  font-weight: 500;
+}
+.status-badge.active {
+  background: var(--positive-bg);
+  color: var(--positive);
+}
+.status-badge.archived {
+  background: var(--surface-raised);
+  color: var(--text-tertiary);
+}
+
+.repo-card-desc {
+  color: var(--text-secondary);
+  font-size: 13px;
+  margin-bottom: 14px;
+  line-height: 1.5;
+}
+
+.repo-stats {
+  display: flex;
+  gap: 16px;
+  font-size: 13px;
+  color: var(--text-tertiary);
+  margin-bottom: 14px;
+}
+
+.repo-signal {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 14px;
+  color: var(--text-secondary);
+  border-top: 1px solid var(--border-light);
+  padding-top: 12px;
+}
+
+/* ---- Empty state ---- */
+.empty-state {
+  text-align: center;
+  padding: 64px 24px;
+  color: var(--text-secondary);
+}
+.empty-state h2 {
+  font-family: var(--font-display);
+  color: var(--text);
+  margin-bottom: 8px;
+}
+.empty-state p { max-width: 400px; margin: 0 auto 20px; font-size: 14px; }
+
+/* ---- Screen 2: Repo Detail ---- */
+.repo-header {
+  margin-bottom: 8px;
+}
+
+.repo-header h1 { margin-bottom: 6px; }
+
+.repo-meta {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
+  margin-bottom: 24px;
+}
+
+.repo-meta-item {
+  font-size: 13px;
+  color: var(--text-secondary);
+}
+
+.repo-meta-item strong {
+  color: var(--text);
+  font-weight: 600;
+}
+
+.repo-actions {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 28px;
+  flex-wrap: wrap;
+}
+
+/* ---- Tabs ---- */
+.tabs {
+  display: flex;
+  gap: 0;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 28px;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.tab {
+  padding: 10px 18px;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text-secondary);
+  border: none;
+  background: none;
+  cursor: pointer;
+  white-space: nowrap;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -1px;
+  transition: color 0.15s, border-color 0.15s;
+  font-family: var(--font-body);
+}
+.tab:hover { color: var(--text); }
+.tab.active {
+  color: var(--text);
+  border-bottom-color: var(--text);
+}
+
+.tab-count {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 20px;
+  height: 20px;
+  padding: 0 6px;
+  border-radius: 100px;
+  background: var(--surface-raised);
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-tertiary);
+  margin-left: 6px;
+}
+.tab.active .tab-count {
+  background: var(--accent-light);
+  color: var(--accent);
+}
+
+/* ---- Theme card ---- */
+.theme-cards {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.theme-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 20px 24px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+}
+
+.theme-card-top {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 10px;
+  flex-wrap: wrap;
+}
+
+.type-badge {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+}
+.type-badge.pain { background: var(--pain-bg); color: var(--pain); }
+.type-badge.positive { background: var(--positive-bg); color: var(--positive); }
+.type-badge.request { background: var(--request-bg); color: var(--request); }
+.type-badge.trend { background: var(--trend-bg); color: var(--trend); }
+
+.signal-dots {
+  display: inline-flex;
+  gap: 3px;
+  align-items: center;
+}
+.signal-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--signal-empty);
+}
+.signal-dot.filled { background: var(--signal); }
+
+.meeting-count {
+  font-size: 12px;
+  color: var(--text-tertiary);
+  margin-left: auto;
+}
+
+.theme-label {
+  font-family: var(--font-display);
+  font-size: 17px;
+  font-weight: 500;
+  line-height: 1.4;
+  margin-bottom: 14px;
+}
+
+.quote-block {
+  border-left: 2px solid var(--border);
+  padding: 10px 0 10px 16px;
+  margin-bottom: 6px;
+}
+
+.quote-text {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 14px;
+  line-height: 1.55;
+  color: var(--text);
+  margin-bottom: 6px;
+}
+
+.quote-attr {
+  font-size: 12px;
+  color: var(--text-tertiary);
+}
+
+.theme-card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 14px;
+  padding-top: 12px;
+  border-top: 1px solid var(--border-light);
+}
+
+.more-quotes {
+  font-size: 13px;
+  color: var(--text-tertiary);
+}
+
+.frame-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--accent);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-family: var(--font-body);
+  transition: background 0.15s;
+}
+.frame-btn:hover { background: var(--accent-light); }
+
+/* ---- Meetings section ---- */
+.meetings-section {
+  margin-top: 40px;
+}
+
+.meetings-section h3 {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: 18px;
+  margin-bottom: 16px;
+  color: var(--text);
+}
+
+.meeting-row {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 14px 16px;
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-sm);
+  margin-bottom: 8px;
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s;
+  flex-wrap: wrap;
+}
+.meeting-row:hover {
+  background: var(--surface);
+  border-color: var(--border);
+}
+
+.meeting-name {
+  font-weight: 500;
+  font-size: 14px;
+  flex: 1;
+  min-width: 180px;
+}
+
+.meeting-date {
+  font-size: 13px;
+  color: var(--text-tertiary);
+}
+
+.meeting-claims {
+  font-size: 13px;
+  color: var(--text-tertiary);
+}
+
+/* ---- Screen 3: Document Detail ---- */
+.doc-header { margin-bottom: 24px; }
+.doc-header h1 { margin-bottom: 4px; }
+.doc-meta {
+  font-size: 13px;
+  color: var(--text-secondary);
+  margin-bottom: 16px;
+}
+
+.doc-stat-strip {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 28px;
+}
+
+.doc-stat {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border-radius: 100px;
+  font-size: 13px;
+  font-weight: 500;
+  background: var(--surface);
+  border: 1px solid var(--border-light);
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: border-color 0.15s;
+  font-family: var(--font-body);
+}
+.doc-stat:hover { border-color: var(--border); }
+.doc-stat .count {
+  font-weight: 600;
+  color: var(--text);
+}
+.doc-stat.active-stat {
+  border-color: var(--accent);
+  background: var(--accent-light);
+  color: var(--accent);
+}
+.doc-stat.active-stat .count { color: var(--accent); }
+
+.claim-section {
+  margin-bottom: 36px;
+}
+
+.claim-section-title {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: 17px;
+  margin-bottom: 14px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--border-light);
+}
+
+.claim-card {
+  padding: 16px 20px;
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-sm);
+  margin-bottom: 10px;
+  position: relative;
+}
+
+.claim-card::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 12px;
+  bottom: 12px;
+  width: 3px;
+  border-radius: 2px;
+}
+.claim-card.pain-card::before { background: var(--pain); }
+.claim-card.positive-card::before { background: var(--positive); }
+.claim-card.request-card::before { background: var(--request); }
+.claim-card.fact-card::before { background: var(--text-tertiary); }
+.claim-card.decision-card::before { background: var(--signal); }
+.claim-card.action-card::before { background: var(--trend); }
+.claim-card.question-card::before { background: var(--request); }
+
+.claim-text {
+  font-size: 14px;
+  font-weight: 500;
+  margin-bottom: 8px;
+  line-height: 1.5;
+}
+
+.claim-quote {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 13px;
+  color: var(--text-secondary);
+  margin-bottom: 6px;
+  line-height: 1.5;
+}
+
+.claim-attr {
+  font-size: 12px;
+  color: var(--text-tertiary);
+}
+
+.claim-theme-tag {
+  display: inline-block;
+  margin-top: 8px;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 11px;
+  background: var(--accent-light);
+  color: var(--accent);
+}
+
+/* ---- Screen 4: Opportunity Modal ---- */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.45);
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+
+.modal {
+  background: var(--surface);
+  border-radius: var(--radius-md);
+  width: 100%;
+  max-width: 780px;
+  max-height: calc(100vh - 48px);
+  overflow-y: auto;
+  padding: 0;
+}
+
+.modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 28px;
+  border-bottom: 1px solid var(--border-light);
+  position: sticky;
+  top: 0;
+  background: var(--surface);
+  z-index: 2;
+}
+
+.modal-header h2 {
+  font-family: var(--font-display);
+  font-size: 20px;
+}
+
+.modal-close {
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  background: none;
+  cursor: pointer;
+  color: var(--text-secondary);
+  border-radius: 6px;
+  transition: background 0.15s;
+  font-size: 20px;
+}
+.modal-close:hover { background: var(--surface-raised); }
+
+.modal-body {
+  padding: 24px 28px 28px;
+}
+
+.opp-section {
+  margin-bottom: 24px;
+}
+
+.opp-section-label {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-tertiary);
+  letter-spacing: 0.04em;
+  margin-bottom: 10px;
+}
+
+.opp-evidence {
+  background: var(--surface-raised);
+  border-radius: var(--radius-sm);
+  padding: 16px 20px;
+  margin-bottom: 24px;
+}
+
+.opp-evidence .theme-label {
+  font-size: 16px;
+  margin-bottom: 12px;
+}
+
+.opp-evidence .signal-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 14px;
+  font-size: 13px;
+  color: var(--text-secondary);
+}
+
+.opp-quote {
+  border-left: 2px solid var(--border);
+  padding: 8px 0 8px 14px;
+  margin-bottom: 10px;
+}
+
+.opp-quote .quote-text { font-size: 13px; }
+.opp-quote .quote-attr { font-size: 11px; }
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-label {
+  display: block;
+  font-size: 13px;
+  font-weight: 500;
+  margin-bottom: 6px;
+  color: var(--text);
+}
+
+.form-label .hint {
+  font-weight: 400;
+  color: var(--text-tertiary);
+}
+
+.form-input, .form-textarea {
+  width: 100%;
+  padding: 10px 14px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  font-family: var(--font-body);
+  font-size: 14px;
+  color: var(--text);
+  background: var(--bg);
+  transition: border-color 0.15s;
+  line-height: 1.5;
+}
+.form-input:focus, .form-textarea:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 2px var(--accent-light);
+}
+
+.form-textarea { resize: vertical; min-height: 88px; }
+
+.form-input.readonly {
+  background: var(--surface-raised);
+  color: var(--text-secondary);
+  cursor: default;
+}
+
+.modal-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  padding: 16px 28px;
+  border-top: 1px solid var(--border-light);
+  position: sticky;
+  bottom: 0;
+  background: var(--surface);
+}
+
+/* ---- Upload modal ---- */
+.upload-zone {
+  border: 2px dashed var(--border);
+  border-radius: var(--radius-md);
+  padding: 48px 24px;
+  text-align: center;
+  cursor: pointer;
+  transition: border-color 0.15s, background 0.15s;
+}
+.upload-zone:hover {
+  border-color: var(--accent);
+  background: var(--accent-light);
+}
+
+.upload-zone svg {
+  margin-bottom: 12px;
+  color: var(--text-tertiary);
+}
+
+.upload-zone p {
+  font-size: 14px;
+  color: var(--text-secondary);
+  margin: 0;
+}
+.upload-zone p strong { color: var(--accent); }
+
+.upload-format {
+  font-size: 12px;
+  color: var(--text-tertiary);
+  margin-top: 8px;
+}
+
+.upload-progress {
+  margin-top: 20px;
+}
+
+.progress-bar-bg {
+  height: 4px;
+  background: var(--border);
+  border-radius: 2px;
+  overflow: hidden;
+  margin-bottom: 10px;
+}
+
+.progress-bar-fill {
+  height: 100%;
+  background: var(--accent);
+  border-radius: 2px;
+  width: 0%;
+  transition: width 0.4s ease;
+}
+
+.progress-label {
+  font-size: 13px;
+  color: var(--text-secondary);
+}
+
+.upload-done {
+  text-align: center;
+  padding: 20px;
+}
+.upload-done svg { color: var(--positive); margin-bottom: 8px; }
+.upload-done p { font-size: 14px; color: var(--text-secondary); margin: 0; }
+
+/* ---- Toast ---- */
+.toast {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%) translateY(100px);
+  background: var(--text);
+  color: var(--bg);
+  padding: 12px 24px;
+  border-radius: var(--radius-sm);
+  font-size: 14px;
+  font-weight: 500;
+  z-index: 200;
+  opacity: 0;
+  transition: transform 0.3s, opacity 0.3s;
+  pointer-events: none;
+}
+.toast.show {
+  transform: translateX(-50%) translateY(0);
+  opacity: 1;
+}
+
+/* ---- Create repo modal ---- */
+.create-repo-form .form-group { margin-bottom: 16px; }
+
+/* ---- Responsive ---- */
+@media (max-width: 640px) {
+  h1 { font-size: 22px; }
+  .repos-grid { grid-template-columns: 1fr; }
+  .tabs { gap: 0; }
+  .tab { padding: 10px 12px; font-size: 13px; }
+  .theme-card { padding: 16px; }
+  .modal { max-width: 100%; margin: 0; border-radius: var(--radius-md) var(--radius-md) 0 0; max-height: 90vh; align-self: flex-end; }
+  .modal-body { padding: 20px; }
+  .meeting-row { padding: 12px; }
+  .page-header { flex-direction: column; }
+  .doc-stat-strip { gap: 6px; }
+  .doc-stat { padding: 5px 10px; font-size: 12px; }
+  .repo-meta { gap: 12px; }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; }
+}
+
+/* Focus visible */
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+/* Scrollbar minimal */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+</style>
+
+<div id="app"></div>
+<div class="toast" id="toast"></div>
+
+<script>
+// ============================================
+// Mock Data
+// ============================================
+const DATA = {
+  repos: [
+    {
+      id: 'r1',
+      name: 'Enterprise Onboarding Discovery',
+      description: 'Customer interviews and QBRs exploring onboarding friction in the enterprise segment.',
+      status: 'active',
+      topSignal: 'Initial setup requires dedicated IT involvement across most accounts',
+      documents: [
+        { id: 'd1', name: 'Acme Corp — Quarterly Business Review', date: '2026-09-12', claims: 14, status: 'ready' },
+        { id: 'd2', name: 'GlobalTech — Onboarding Kickoff', date: '2026-09-18', claims: 11, status: 'ready' },
+        { id: 'd3', name: 'Meridian Solutions — Support Escalation', date: '2026-09-25', claims: 9, status: 'ready' },
+        { id: 'd4', name: 'NovaPay — Integration Review', date: '2026-10-02', claims: 8, status: 'ready' },
+        { id: 'd5', name: 'Cloudbridge — Executive Check-in', date: '2026-10-08', claims: 7, status: 'ready' }
+      ],
+      themes: {
+        pains: [
+          {
+            id: 't1', label: 'Initial setup requires dedicated IT involvement',
+            signal: 4, meetings: 4, totalQuotes: 6,
+            quote: "We had to pull in two engineers from our infra team just to get past the initial configuration. That's not what we signed up for.",
+            speaker: 'Priya Sharma', company: 'Acme Corp', date: 'Sep 12', timestamp: '14:32'
+          },
+          {
+            id: 't2', label: 'Documentation doesn\'t match actual product behavior',
+            signal: 3, meetings: 3, totalQuotes: 5,
+            quote: "The API docs say one thing but the actual endpoint returns something completely different. We wasted a full sprint on this.",
+            speaker: 'Marcus Chen', company: 'GlobalTech', date: 'Sep 18', timestamp: '22:15'
+          },
+          {
+            id: 't3', label: 'Time-to-first-value exceeds customer expectations',
+            signal: 3, meetings: 3, totalQuotes: 4,
+            quote: "It took us almost six weeks before anyone on the team could actually use it day-to-day. Our exec sponsor was asking questions by week three.",
+            speaker: 'Sarah Okafor', company: 'Meridian Solutions', date: 'Sep 25', timestamp: '08:47'
+          }
+        ],
+        positives: [
+          {
+            id: 't4', label: 'Support team responsiveness is consistently praised',
+            signal: 4, meetings: 4, totalQuotes: 5,
+            quote: "Your support team is genuinely the best I've dealt with in enterprise software. Ananya specifically — she stayed on the call until we had it working.",
+            speaker: 'David Park', company: 'NovaPay', date: 'Oct 2', timestamp: '31:20'
+          },
+          {
+            id: 't5', label: 'Core pipeline automation saves measurable time once adopted',
+            signal: 3, meetings: 3, totalQuotes: 4,
+            quote: "Once we got through setup, the pipeline automation cut our reporting time from two days to about four hours. That part is genuinely good.",
+            speaker: 'Priya Sharma', company: 'Acme Corp', date: 'Sep 12', timestamp: '42:08'
+          }
+        ],
+        requests: [
+          {
+            id: 't6', label: 'Self-serve onboarding wizard that walks through setup step-by-step',
+            signal: 3, meetings: 3, totalQuotes: 4,
+            quote: "What if there was just a step-by-step wizard that walked us through it? Like Stripe does with their integration guide. We shouldn't need to call support for basic setup.",
+            speaker: 'Marcus Chen', company: 'GlobalTech', date: 'Sep 18', timestamp: '35:41'
+          },
+          {
+            id: 't7', label: 'API rate limit visibility — a dashboard or response headers showing usage',
+            signal: 2, meetings: 2, totalQuotes: 3,
+            quote: "We keep hitting rate limits but there's no dashboard or header telling us how close we are. We're flying blind on capacity planning.",
+            speaker: 'Tomás Rivera', company: 'Cloudbridge', date: 'Oct 8', timestamp: '18:22'
+          },
+          {
+            id: 't8', label: 'Bulk data import tool for historical migration',
+            signal: 2, meetings: 2, totalQuotes: 2,
+            quote: "We need to migrate three years of historical data. Doing it record by record through the API isn't realistic for our timeline.",
+            speaker: 'Sarah Okafor', company: 'Meridian Solutions', date: 'Sep 25', timestamp: '26:11'
+          }
+        ],
+        trends: [
+          {
+            id: 't9', label: 'Security compliance becoming a blocker for enterprise procurement',
+            signal: 3, meetings: 2, totalQuotes: 3, trendNote: 'Appeared in the last 2 meetings',
+            quote: "Our CISO won't sign off until we see SOC 2 Type II and the pen test results. This is holding up the entire procurement process on our end.",
+            speaker: 'James Liu', company: 'Cloudbridge', date: 'Oct 8', timestamp: '06:55'
+          },
+          {
+            id: 't10', label: 'SSO requirement surfacing before procurement can begin',
+            signal: 2, meetings: 2, totalQuotes: 2, trendNote: 'Mentioned independently by 2 accounts',
+            quote: "IT won't even put us on the approved vendor list without SAML SSO. It's a non-starter for our security team.",
+            speaker: 'David Park', company: 'NovaPay', date: 'Oct 2', timestamp: '12:30'
+          }
+        ]
+      }
+    },
+    {
+      id: 'r2',
+      name: 'Pricing Feedback Sprint',
+      description: 'Targeted interviews exploring pricing model friction and willingness to pay.',
+      status: 'active',
+      topSignal: 'Usage-based pricing creates budget unpredictability',
+      documents: [
+        { id: 'd6', name: 'FinServ Panel — Pricing Discussion', date: '2026-10-01', claims: 10, status: 'ready' },
+        { id: 'd7', name: 'Mid-Market Roundtable', date: '2026-10-05', claims: 8, status: 'ready' }
+      ],
+      themes: { pains: [], positives: [], requests: [], trends: [] }
+    },
+    {
+      id: 'r3',
+      name: 'API Developer Experience',
+      description: 'Developer interviews on SDK usability, documentation gaps, and integration patterns.',
+      status: 'archived',
+      topSignal: 'SDK error messages lack actionable troubleshooting guidance',
+      documents: [
+        { id: 'd8', name: 'Developer Advocacy Sync', date: '2026-08-14', claims: 12, status: 'ready' },
+        { id: 'd9', name: 'Partner Integration Retro', date: '2026-08-22', claims: 10, status: 'ready' },
+        { id: 'd10', name: 'Hackathon Feedback Session', date: '2026-09-01', claims: 9, status: 'ready' }
+      ],
+      themes: { pains: [], positives: [], requests: [], trends: [] }
+    }
+  ],
+  docClaims: {
+    'd1': {
+      pains: [
+        { text: 'Initial configuration required two infrastructure engineers for a full week', quote: "We had to pull in two engineers from our infra team just to get past the initial configuration. That's not what we signed up for.", speaker: 'Priya Sharma', timestamp: '14:32', theme: 'Setup requires IT involvement' },
+        { text: 'Data connector setup documentation is outdated and references deprecated endpoints', quote: "The docs still reference the v1 connector endpoint, which was deprecated three months ago. We burned two days before someone told us.", speaker: 'Priya Sharma', timestamp: '18:45', theme: 'Docs don\'t match product' },
+        { text: 'Admin permissions model is confusing — unclear which roles grant which access', quote: "I still don't understand the difference between workspace admin and org admin. Neither did our IT team when they tried to set it up.", speaker: 'Raj Kulkarni', timestamp: '28:10', theme: null }
+      ],
+      positives: [
+        { text: 'Pipeline automation reduced reporting time from 2 days to 4 hours', quote: "Once we got through setup, the pipeline automation cut our reporting time from two days to about four hours. That part is genuinely good.", speaker: 'Priya Sharma', timestamp: '42:08', theme: 'Automation saves time' },
+        { text: 'Support team praised — Ananya resolved a critical blocker same-day', quote: "Ananya from your support team — she was incredible. Stayed on the call for over an hour until we had the connector working.", speaker: 'Raj Kulkarni', timestamp: '45:20', theme: 'Support team praised' }
+      ],
+      requests: [
+        { text: 'Guided setup wizard similar to Stripe\'s onboarding flow', quote: "If you had something like Stripe's setup guide — step by step, with verification at each stage — that would have saved us a week.", speaker: 'Priya Sharma', timestamp: '52:33', theme: 'Self-serve onboarding' },
+        { text: 'Sandbox environment for testing before production deployment', quote: "We need a sandbox. Right now we're testing in production and hoping nothing breaks. That's not sustainable.", speaker: 'Raj Kulkarni', timestamp: '55:12', theme: null }
+      ],
+      facts: [
+        { text: 'Acme Corp has 340 active users across 3 departments', quote: "We've got about 340 people using it now, spread across engineering, data, and product.", speaker: 'Priya Sharma', timestamp: '03:20', theme: null },
+        { text: 'Current contract is annual, up for renewal in Q1 2027', quote: "Our renewal is coming up in Q1. We need to see progress on these issues before then.", speaker: 'Priya Sharma', timestamp: '58:40', theme: null }
+      ],
+      decisions: [
+        { text: 'Agreed to schedule a dedicated onboarding review session with product team', quote: "Let's set up a session with your product team specifically to walk through what went wrong in our onboarding and what we'd want different.", speaker: 'Priya Sharma', timestamp: '56:15', theme: null }
+      ],
+      actions: [],
+      questions: [
+        { text: 'Will the v2 API maintain backward compatibility with existing integrations?', quote: "When v2 ships, are we going to have to redo all our integrations? That's the question keeping our CTO up at night.", speaker: 'Raj Kulkarni', timestamp: '36:22', theme: null }
+      ]
+    }
+  }
+};
+
+// ============================================
+// State
+// ============================================
+let state = {
+  screen: 'repos',
+  repoId: null,
+  docId: null,
+  tab: 'pains',
+  showUpload: false,
+  showOpportunity: false,
+  opportunityTheme: null,
+  showCreateRepo: false,
+  uploadStage: null,
+  savedOpportunities: []
+};
+
+// ============================================
+// Helpers
+// ============================================
+function getRepo(id) { return DATA.repos.find(r => r.id === id); }
+function getDoc(id) {
+  for (const r of DATA.repos) {
+    const d = r.documents.find(doc => doc.id === id);
+    if (d) return { ...d, repoId: r.id, repoName: r.name };
+  }
+  return null;
+}
+
+function totalClaims(repo) {
+  return repo.documents.reduce((s, d) => s + d.claims, 0);
+}
+
+function totalThemes(repo) {
+  const t = repo.themes;
+  return t.pains.length + t.positives.length + t.requests.length + t.trends.length;
+}
+
+function formatDate(dateStr) {
+  const d = new Date(dateStr + 'T00:00:00');
+  return d.toLocaleDateString('en-IN', { month: 'short', day: 'numeric', year: 'numeric' });
+}
+
+function signalDots(level, max = 5) {
+  let h = '';
+  for (let i = 0; i < max; i++) {
+    h += `<span class="signal-dot${i < level ? ' filled' : ''}"></span>`;
+  }
+  return `<span class="signal-dots">${h}</span>`;
+}
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2400);
+}
+
+const ARROW_LEFT = '<svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M10 3L5 8l5 5"/></svg>';
+const UPLOAD_ICON = '<svg width="32" height="32" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M16 20V6m0 0l-5 5m5-5l5 5M6 24h20"/></svg>';
+const CHECK_ICON = '<svg width="32" height="32" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2"><circle cx="16" cy="16" r="12"/><path d="M11 16l3 3 7-7"/></svg>';
+
+// ============================================
+// Renderers
+// ============================================
+function renderNav() {
+  return `<nav class="nav">
+    <div style="display:flex;align-items:center">
+      <a class="nav-brand" onclick="navigate('repos')">Resonance</a>
+      <span class="nav-tagline">Voice of customer intelligence</span>
+    </div>
+  </nav>`;
+}
+
+function renderRepos() {
+  const repos = DATA.repos;
+  return renderNav() + `
+    <div class="page-header">
+      <div>
+        <h1>Repositories</h1>
+        <p>Each repository groups meetings from one discovery initiative. Upload transcripts and see what patterns emerge.</p>
+      </div>
+      <button class="btn btn-primary" onclick="openCreateRepo()">New repository</button>
+    </div>
+    <div class="repos-grid">
+      ${repos.map(r => `
+        <div class="repo-card" onclick="navigate('repo', '${r.id}')">
+          <div class="repo-card-header">
+            <h2>${r.name}</h2>
+            <span class="status-badge ${r.status}">${r.status === 'active' ? 'Active' : 'Archived'}</span>
+          </div>
+          <div class="repo-card-desc">${r.description}</div>
+          <div class="repo-stats">
+            <span>${r.documents.length} meetings</span>
+            <span>${totalClaims(r)} claims</span>
+            <span>${totalThemes(r)} themes</span>
+          </div>
+          ${r.topSignal ? `<div class="repo-signal">"${r.topSignal}"</div>` : ''}
+        </div>
+      `).join('')}
+    </div>`;
+}
+
+function renderRepoDetail() {
+  const repo = getRepo(state.repoId);
+  if (!repo) return '';
+
+  const tabDefs = [
+    { key: 'pains', label: 'Pain Points', count: repo.themes.pains.length, type: 'pain' },
+    { key: 'positives', label: 'Positives', count: repo.themes.positives.length, type: 'positive' },
+    { key: 'requests', label: 'Improvements', count: repo.themes.requests.length, type: 'request' },
+    { key: 'trends', label: 'Emerging Trends', count: repo.themes.trends.length, type: 'trend' }
+  ];
+
+  const activeThemes = repo.themes[state.tab] || [];
+  const crossDocCount = [...repo.themes.pains, ...repo.themes.positives, ...repo.themes.requests, ...repo.themes.trends].filter(t => t.meetings >= 2).length;
+
+  return renderNav() + `
+    <a class="back-link" onclick="navigate('repos')">${ARROW_LEFT} All repositories</a>
+    <div class="repo-header">
+      <h1>${repo.name}</h1>
+    </div>
+    <div class="repo-meta">
+      <span class="repo-meta-item"><strong>${repo.documents.length}</strong> meetings</span>
+      <span class="repo-meta-item"><strong>${totalClaims(repo)}</strong> claims</span>
+      <span class="repo-meta-item"><strong>${totalThemes(repo)}</strong> themes</span>
+      <span class="repo-meta-item"><strong>${crossDocCount}</strong> cross-meeting patterns</span>
+    </div>
+    <div class="repo-actions">
+      <button class="btn btn-primary" onclick="openUpload()">Upload meeting</button>
+    </div>
+    <div class="tabs">
+      ${tabDefs.map(t => `
+        <button class="tab${state.tab === t.key ? ' active' : ''}" onclick="switchTab('${t.key}')">
+          ${t.label}<span class="tab-count">${t.count}</span>
+        </button>
+      `).join('')}
+    </div>
+    <div class="theme-cards">
+      ${activeThemes.length === 0 ? `
+        <div class="empty-state">
+          <h2>No ${tabDefs.find(t => t.key === state.tab).label.toLowerCase()} yet</h2>
+          <p>Upload meeting transcripts to this repository. Insights will appear here as patterns emerge.</p>
+        </div>
+      ` : activeThemes.map(t => renderThemeCard(t, tabDefs.find(td => td.key === state.tab).type)).join('')}
+    </div>
+    <div class="meetings-section">
+      <h3>Meetings</h3>
+      ${repo.documents.map(d => `
+        <div class="meeting-row" onclick="navigate('doc', '${d.id}')">
+          <span class="meeting-name">${d.name}</span>
+          <span class="meeting-date">${formatDate(d.date)}</span>
+          <span class="meeting-claims">${d.claims} claims</span>
+        </div>
+      `).join('')}
+    </div>`;
+}
+
+function renderThemeCard(theme, type) {
+  const isSaved = state.savedOpportunities.includes(theme.id);
+  return `
+    <div class="theme-card">
+      <div class="theme-card-top">
+        <span class="type-badge ${type}">${type === 'request' ? 'improvement' : type}</span>
+        ${signalDots(theme.signal)}
+        ${theme.trendNote ? `<span style="font-size:11px;color:var(--trend);font-weight:500">${theme.trendNote}</span>` : ''}
+        <span class="meeting-count">${theme.meetings} meeting${theme.meetings !== 1 ? 's' : ''}</span>
+      </div>
+      <div class="theme-label">${theme.label}</div>
+      <div class="quote-block">
+        <div class="quote-text">"${theme.quote}"</div>
+        <div class="quote-attr">${theme.speaker}, ${theme.company} · ${theme.date} · ${theme.timestamp}</div>
+      </div>
+      <div class="theme-card-footer">
+        <span class="more-quotes">${theme.totalQuotes > 1 ? `+${theme.totalQuotes - 1} more quote${theme.totalQuotes - 1 !== 1 ? 's' : ''}` : ''}</span>
+        <button class="frame-btn" onclick="event.stopPropagation(); openOpportunity('${theme.id}')">
+          ${isSaved ? '✓ Saved' : 'Frame as opportunity →'}
+        </button>
+      </div>
+    </div>`;
+}
+
+function renderDocDetail() {
+  const doc = getDoc(state.docId);
+  if (!doc) return '';
+  const claims = DATA.docClaims[doc.id];
+  if (!claims) {
+    return renderNav() + `
+      <a class="back-link" onclick="navigate('repo', '${doc.repoId}')">${ARROW_LEFT} ${doc.repoName}</a>
+      <div class="doc-header"><h1>${doc.name}</h1></div>
+      <div class="empty-state"><h2>Document detail</h2><p>Detailed claim view is available for seeded documents. Try the Acme Corp QBR.</p></div>`;
+  }
+
+  const sections = [
+    { key: 'pains', label: 'Pain Points', cls: 'pain-card' },
+    { key: 'positives', label: 'Strengths', cls: 'positive-card' },
+    { key: 'requests', label: 'Requests', cls: 'request-card' },
+    { key: 'facts', label: 'Key Facts', cls: 'fact-card' },
+    { key: 'decisions', label: 'Decisions', cls: 'decision-card' },
+    { key: 'actions', label: 'Action Items', cls: 'action-card' },
+    { key: 'questions', label: 'Open Questions', cls: 'question-card' }
+  ].filter(s => claims[s.key] && claims[s.key].length > 0);
+
+  return renderNav() + `
+    <a class="back-link" onclick="navigate('repo', '${doc.repoId}')">${ARROW_LEFT} ${doc.repoName}</a>
+    <div class="doc-header">
+      <h1>${doc.name}</h1>
+      <div class="doc-meta">${formatDate(doc.date)} · ${doc.claims} claims extracted</div>
+    </div>
+    <div class="doc-stat-strip">
+      ${sections.map(s => `
+        <a class="doc-stat" href="#section-${s.key}" onclick="event.preventDefault(); document.getElementById('section-${s.key}').scrollIntoView({behavior:'smooth'})">
+          <span class="count">${claims[s.key].length}</span> ${s.label}
+        </a>
+      `).join('')}
+    </div>
+    ${sections.map(s => `
+      <div class="claim-section" id="section-${s.key}">
+        <div class="claim-section-title">${s.label}</div>
+        ${claims[s.key].map(c => `
+          <div class="claim-card ${s.cls}">
+            <div class="claim-text">${c.text}</div>
+            <div class="claim-quote">"${c.quote}"</div>
+            <div class="claim-attr">${c.speaker} · ${c.timestamp}</div>
+            ${c.theme ? `<span class="claim-theme-tag">${c.theme}</span>` : ''}
+          </div>
+        `).join('')}
+      </div>
+    `).join('')}`;
+}
+
+function renderOpportunityModal() {
+  if (!state.showOpportunity || !state.opportunityTheme) return '';
+  const repo = getRepo(state.repoId);
+  const allThemes = [...repo.themes.pains, ...repo.themes.positives, ...repo.themes.requests, ...repo.themes.trends];
+  const theme = allThemes.find(t => t.id === state.opportunityTheme);
+  if (!theme) return '';
+
+  const isSaved = state.savedOpportunities.includes(theme.id);
+
+  return `<div class="modal-overlay" onclick="closeOpportunity(event)">
+    <div class="modal" onclick="event.stopPropagation()">
+      <div class="modal-header">
+        <h2>Frame as Opportunity</h2>
+        <button class="modal-close" onclick="closeOpportunity()">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="opp-section">
+          <div class="opp-section-label">Evidence</div>
+          <div class="opp-evidence">
+            <div class="theme-label">${theme.label}</div>
+            <div class="signal-row">
+              ${signalDots(theme.signal)} <span>${theme.meetings} meetings · ${theme.totalQuotes} supporting quotes</span>
+            </div>
+            <div class="opp-quote">
+              <div class="quote-text">"${theme.quote}"</div>
+              <div class="quote-attr">${theme.speaker}, ${theme.company} · ${theme.date}</div>
+            </div>
+          </div>
+        </div>
+        <div class="opp-section">
+          <div class="opp-section-label">Your frame</div>
+          <div class="form-group">
+            <label class="form-label">Problem statement <span class="hint">— AI draft, edit freely</span></label>
+            <textarea class="form-textarea" id="opp-problem" rows="3">${generateProblemStatement(theme)}</textarea>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Who's affected</label>
+            <input class="form-input" id="opp-who" value="${theme.company} and ${theme.meetings - 1} other enterprise account${theme.meetings > 2 ? 's' : ''}">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Signal strength</label>
+            <input class="form-input readonly" value="${theme.signal}/5 — ${theme.totalQuotes} quotes across ${theme.meetings} meetings" readonly>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Hypothesis <span class="hint">— what might solving this look like?</span></label>
+            <textarea class="form-textarea" id="opp-hypothesis" rows="3" placeholder="e.g., A guided setup wizard with verification at each step would reduce onboarding time from 6 weeks to under 2 weeks"></textarea>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" onclick="closeOpportunity()">Cancel</button>
+        <button class="btn btn-primary" onclick="saveOpportunity('${theme.id}')">${isSaved ? 'Update opportunity' : 'Save opportunity'}</button>
+      </div>
+    </div>
+  </div>`;
+}
+
+function generateProblemStatement(theme) {
+  const stmts = {
+    't1': 'Enterprise customers cannot complete initial product setup without pulling in dedicated IT/infrastructure engineers, creating a multi-day dependency that delays time-to-value and signals the product is not self-serve ready for its target segment.',
+    't2': 'API documentation references deprecated endpoints and outdated parameters, causing development teams to waste sprint cycles on integration work that should be straightforward.',
+    't3': 'New enterprise accounts are taking 5-6 weeks to reach day-to-day usage, far exceeding the 2-week expectation set during sales, and triggering exec sponsor concern before the product has a chance to prove its value.',
+    't4': 'Support team quality is a key retention driver. Customers cite specific team members by name and describe support as a primary reason for continued investment.',
+    't5': 'Post-onboarding, the pipeline automation delivers significant time savings (2 days → 4 hours for reporting), validating the core product promise once adoption hurdles are cleared.',
+    't6': 'Customers are independently requesting a guided, step-by-step onboarding flow similar to Stripe\'s integration experience, suggesting the current setup process lacks the progressive disclosure needed for self-serve adoption.',
+    't7': 'API consumers lack visibility into their rate limit usage, leading to unexpected throttling and inability to plan capacity, which undermines trust in the platform\'s reliability for production workloads.',
+    't8': 'Enterprise customers with years of historical data have no viable migration path beyond record-by-record API calls, creating a practical barrier to adoption that contract timelines cannot absorb.',
+    't9': 'Enterprise procurement is stalling because security teams require SOC 2 Type II certification and penetration test results before approving vendor status. This is blocking deals at the final stage.',
+    't10': 'IT security teams are requiring SAML SSO as a prerequisite for approved-vendor listing, making it impossible for champions to move the product through procurement without this capability.'
+  };
+  return stmts[theme.id] || `${theme.label} — affecting ${theme.meetings} enterprise accounts based on direct customer evidence.`;
+}
+
+function renderUploadModal() {
+  if (!state.showUpload) return '';
+  return `<div class="modal-overlay" onclick="closeUpload(event)">
+    <div class="modal" onclick="event.stopPropagation()" style="max-width:520px">
+      <div class="modal-header">
+        <h2>Upload meeting transcript</h2>
+        <button class="modal-close" onclick="closeUpload()">&times;</button>
+      </div>
+      <div class="modal-body">
+        ${state.uploadStage === 'done' ? `
+          <div class="upload-done">
+            ${CHECK_ICON}
+            <p style="font-weight:500;color:var(--text);margin-bottom:4px">Transcript processed</p>
+            <p>14 claims extracted · 3 new themes · 2 existing themes reinforced</p>
+          </div>
+        ` : state.uploadStage === 'progress' ? `
+          <div style="padding:20px 0">
+            <p style="font-size:14px;font-weight:500;margin:0 0 16px">Processing: customer_call_oct15.docx</p>
+            <div class="upload-progress">
+              <div class="progress-bar-bg"><div class="progress-bar-fill" id="progress-fill"></div></div>
+              <div class="progress-label" id="progress-label">Reading document...</div>
+            </div>
+          </div>
+        ` : `
+          <div class="upload-zone" onclick="simulateUpload()">
+            ${UPLOAD_ICON}
+            <p>Drop your transcript here or <strong>browse files</strong></p>
+            <p class="upload-format">Accepts .docx meeting transcripts (Teams, Zoom)</p>
+          </div>
+        `}
+      </div>
+      ${state.uploadStage === 'done' ? `
+        <div class="modal-footer">
+          <button class="btn btn-primary" onclick="closeUpload()">View insights</button>
+        </div>
+      ` : ''}
+    </div>
+  </div>`;
+}
+
+function renderCreateRepoModal() {
+  if (!state.showCreateRepo) return '';
+  return `<div class="modal-overlay" onclick="closeCreateRepo(event)">
+    <div class="modal" onclick="event.stopPropagation()" style="max-width:480px">
+      <div class="modal-header">
+        <h2>New repository</h2>
+        <button class="modal-close" onclick="closeCreateRepo()">&times;</button>
+      </div>
+      <div class="modal-body create-repo-form">
+        <div class="form-group">
+          <label class="form-label">Repository name</label>
+          <input class="form-input" id="repo-name" placeholder="e.g., Enterprise Onboarding Discovery">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Description <span class="hint">— optional</span></label>
+          <textarea class="form-textarea" id="repo-desc" rows="2" placeholder="What discovery initiative is this for?"></textarea>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" onclick="closeCreateRepo()">Cancel</button>
+        <button class="btn btn-primary" onclick="createRepo()">Create repository</button>
+      </div>
+    </div>
+  </div>`;
+}
+
+// ============================================
+// Render orchestrator
+// ============================================
+function render() {
+  let html = '';
+  switch (state.screen) {
+    case 'repos': html = renderRepos(); break;
+    case 'repo': html = renderRepoDetail(); break;
+    case 'doc': html = renderDocDetail(); break;
+  }
+  document.getElementById('app').innerHTML = html + renderOpportunityModal() + renderUploadModal() + renderCreateRepoModal();
+
+  if (state.uploadStage === 'progress') runUploadAnimation();
+  window.scrollTo({ top: 0 });
+}
+
+// ============================================
+// Navigation & actions
+// ============================================
+function navigate(screen, id) {
+  if (screen === 'repos') {
+    state.screen = 'repos'; state.repoId = null; state.docId = null; state.tab = 'pains';
+  } else if (screen === 'repo') {
+    state.screen = 'repo'; state.repoId = id; state.docId = null; state.tab = 'pains';
+  } else if (screen === 'doc') {
+    state.screen = 'doc'; state.docId = id;
+    const doc = getDoc(id);
+    if (doc) state.repoId = doc.repoId;
+  }
+  render();
+}
+
+function switchTab(tab) { state.tab = tab; render(); }
+
+function openUpload() { state.showUpload = true; state.uploadStage = null; render(); }
+function closeUpload(e) {
+  if (e && e.target !== e.currentTarget) return;
+  state.showUpload = false; state.uploadStage = null; render();
+}
+
+function openOpportunity(themeId) { state.showOpportunity = true; state.opportunityTheme = themeId; render(); }
+function closeOpportunity(e) {
+  if (e && e.target !== e.currentTarget) return;
+  state.showOpportunity = false; state.opportunityTheme = null; render();
+}
+
+function openCreateRepo() { state.showCreateRepo = true; render(); }
+function closeCreateRepo(e) {
+  if (e && e.target !== e.currentTarget) return;
+  state.showCreateRepo = false; render();
+}
+
+function createRepo() {
+  const name = document.getElementById('repo-name')?.value?.trim();
+  if (!name) { showToast('Enter a repository name'); return; }
+  const desc = document.getElementById('repo-desc')?.value?.trim() || '';
+  DATA.repos.unshift({
+    id: 'r' + Date.now(), name, description: desc, status: 'active', topSignal: '',
+    documents: [], themes: { pains: [], positives: [], requests: [], trends: [] }
+  });
+  state.showCreateRepo = false;
+  showToast('Repository created');
+  render();
+}
+
+function saveOpportunity(themeId) {
+  if (!state.savedOpportunities.includes(themeId)) state.savedOpportunities.push(themeId);
+  state.showOpportunity = false; state.opportunityTheme = null;
+  showToast('Opportunity saved');
+  render();
+}
+
+function simulateUpload() {
+  state.uploadStage = 'progress';
+  render();
+}
+
+function runUploadAnimation() {
+  const fill = document.getElementById('progress-fill');
+  const label = document.getElementById('progress-label');
+  if (!fill || !label) return;
+
+  const stages = [
+    { pct: 15, text: 'Reading document...' },
+    { pct: 40, text: 'Extracting claims — segment 12 of 28...' },
+    { pct: 65, text: 'Extracting claims — segment 22 of 28...' },
+    { pct: 85, text: 'Matching to existing themes...' },
+    { pct: 95, text: 'Checking for new patterns...' },
+    { pct: 100, text: 'Done' }
+  ];
+
+  let i = 0;
+  function step() {
+    if (i >= stages.length) { state.uploadStage = 'done'; render(); return; }
+    fill.style.width = stages[i].pct + '%';
+    label.textContent = stages[i].text;
+    i++;
+    setTimeout(step, 700 + Math.random() * 500);
+  }
+  setTimeout(step, 300);
+}
+
+// ============================================
+// Init
+// ============================================
+render();
+</script>
+
+</body></html>
